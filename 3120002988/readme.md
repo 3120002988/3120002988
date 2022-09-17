@@ -8,5 +8,7 @@
 
 [前往github仓库](https://github.com/wanghui1212/3120002988/tree/main/3120002988)
 
+[详情请点击](https://bbs.csdn.net/topics/608215663)
+
 
 
