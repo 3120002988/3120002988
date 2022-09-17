@@ -28,7 +28,7 @@ public class PaperCheckTest {
     public void testAdd(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString(s[0]);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -49,7 +49,7 @@ public class PaperCheckTest {
     public void testDel(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString(s[1]);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -70,7 +70,7 @@ public class PaperCheckTest {
     public void testDis_1(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString(s[2]);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -91,7 +91,7 @@ public class PaperCheckTest {
     public void testDis_10(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString(s[3]);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -112,7 +112,7 @@ public class PaperCheckTest {
     public void testDis_15(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString(s[4]);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -133,7 +133,7 @@ public class PaperCheckTest {
     public void testNull1(){
         String f1 = FileUtil.readString("");
         String f2 = FileUtil.readString("");
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -153,7 +153,7 @@ public class PaperCheckTest {
     public void testNull2(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString("");
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -173,7 +173,7 @@ public class PaperCheckTest {
     public void testNull3(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString(null);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -193,7 +193,7 @@ public class PaperCheckTest {
     public void testNull4(){
         String f1 = FileUtil.readString(null);
         String f2 = FileUtil.readString(null);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);
@@ -214,7 +214,7 @@ public class PaperCheckTest {
     public void testOrigSame(){
         String f1 = FileUtil.readString(origin);
         String f2 = FileUtil.readString(origin);
-        if (!"".equals(f1) && !"".equals(f2)){
+        if (!f1.isEmpty() && !f2.isEmpty()){
             SimHashImpl hash1 = new SimHashImpl(f1, 64);
             hash1.subByDistance(hash1, 3);
             SimHashImpl hash2 = new SimHashImpl(f2, 64);

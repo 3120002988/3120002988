@@ -19,14 +19,14 @@ public interface SimHash {
      */
     BigInteger simHash();
     /**
-     *计算哈希值
+     * 计算哈希值
      * @param source
      * @return
      */
     BigInteger hash(String source);
 
     /**
-     *计算汉明距离
+     * 计算汉明距离
      * @param str1
      * @param str2
      * @return
@@ -42,7 +42,7 @@ public interface SimHash {
      */
     public String getSimilarity(String str1, String str2);
     /**
-     *获取特征值
+     * 获取特征值
      * @param simHashImpl
      * @param distance
      * @return
