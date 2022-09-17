@@ -13,6 +13,7 @@ import java.util.StringTokenizer;
  * @Description
  * @Create 2022-09-17 13:59
  */
+@SuppressWarnings({"all"})
 public class SimHashImpl implements SimHash {
 
     private String tokens;
@@ -112,6 +113,12 @@ public class SimHashImpl implements SimHash {
             }
         }
         return distance;
+    }
+    @Override
+    public String getSimilarity(String str1, String str2) {
+        /*String.format("%.2f", (100-distance*100/128))*/
+        double distance = getDistance(str1, str2);
+        return String.format("%.2f", (100 - distance * 100 / 128));
     }
 
 

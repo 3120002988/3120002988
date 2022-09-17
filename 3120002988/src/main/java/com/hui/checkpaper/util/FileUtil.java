@@ -8,7 +8,8 @@ import java.io.*;
  * @Description
  * @Create 2022-09-17 13:54
  */
-public class File {
+@SuppressWarnings({"all"})
+public class FileUtil {
     public static String readString(String filepath)  {
         if(filepath == null || "".equals ( filepath )){
             return "";
@@ -37,5 +38,17 @@ public class File {
             e.printStackTrace();
         }
         return str.toString();
+    }
+
+    public static void writeString(String filePath,String context) throws IOException {
+        FileOutputStream fileOutputStream = null;
+        File file = new File(filePath);
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(context.getBytes("gbk"));
+        fileOutputStream.flush();
+        fileOutputStream.close();
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
  * @Description
  * @Create 2022-09-17 13:58
  */
+@SuppressWarnings({"all"})
 public interface SimHash {
     /**
      * SimHash模块
@@ -32,6 +33,14 @@ public interface SimHash {
      */
     double getDistance(String str1, String str2);
 
+
+    /**
+     * 获取相似度
+     * @param str1
+     * @param str2
+     * @return
+     */
+    public String getSimilarity(String str1, String str2);
     /**
      *获取特征值
      * @param simHashImpl
