@@ -1,6 +1,6 @@
 package com.hui.utils;
 
-import com.hui.constant.Constant;
+import com.hui.common.Constant;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,42 +15,42 @@ import java.util.Map;
  */
 public class PrintFileUtil {
     /**
-     * 根据运算式子打印练习文件和答案文件
+     * 打印练习文件和答案文件
      *
-     * @param questionAndResultMap
+     * @param quesResMap
      */
-    public static void printExerciseFileAndAnswerFile(Map<String, String> questionAndResultMap) {
+    public static void printFile(Map<String, String> quesResMap) {
         File dir = new File(Constant.PRINT_FILE_URL);
         //处理输出文件格式
         int i = 0;
         int j = 0;
-        //解决FileNotFound
+
         if (!dir.exists()) {
             dir.mkdir();
         }
-        File exerciseFile = new File(Constant.PRINT_FILE_URL, "Exercises.txt");
-        File answerFile = new File(Constant.PRINT_FILE_URL, "Answers.txt");
+        File exerFile = new File(Constant.PRINT_FILE_URL, "Exercises.txt");
+        File ansFile = new File(Constant.PRINT_FILE_URL, "Answers.txt");
         try {
-            OutputStream exerciseFileOutputStream = new FileOutputStream(exerciseFile);
-            OutputStream answerFileOutputStream = new FileOutputStream(answerFile);
+            OutputStream exerFileOutputStream = new FileOutputStream(exerFile);
+            OutputStream ansFileOutputStream = new FileOutputStream(ansFile);
 
-            StringBuilder exerciseBuffer = new StringBuilder();
-            StringBuilder answerFileBuffer = new StringBuilder();
-            System.out.println("正在写出到文件...");
+            StringBuilder exerBuffer = new StringBuilder();
+            StringBuilder ansFileBuffer = new StringBuilder();
+            System.out.println("正在打印文件...");
 
-            for (Map.Entry<String, String> entry : questionAndResultMap.entrySet()) {
-                exerciseBuffer.append(++i +"、");
-                exerciseBuffer.append(entry.getKey()).append("\r\n");
-                answerFileBuffer.append(++j +"、");
-                answerFileBuffer.append(entry.getValue()).append("\r\n");
+            for (Map.Entry<String, String> entry : quesResMap.entrySet()) {
+                exerBuffer.append(++i + "、");
+                exerBuffer.append(entry.getKey()).append("\r\n");
+                ansFileBuffer.append(++j + "、");
+                ansFileBuffer.append(entry.getValue()).append("\r\n");
             }
-            exerciseFileOutputStream.write(exerciseBuffer.toString().getBytes());
-            answerFileOutputStream.write(answerFileBuffer.toString().getBytes());
-            exerciseFileOutputStream.close();
-            answerFileOutputStream.close();
-            System.out.println("操作成功！！！");
+            exerFileOutputStream.write(exerBuffer.toString().getBytes());
+            ansFileOutputStream.write(ansFileBuffer.toString().getBytes());
+            exerFileOutputStream.close();
+            ansFileOutputStream.close();
+            System.out.println("打印成功！！！");
         } catch (IOException e) {
-            System.out.println("文件操作异常，请重试");
+            System.out.println("文件打印异常，请重试");
         }
 
 
@@ -59,35 +59,35 @@ public class PrintFileUtil {
     /**
      * 验证答案的正确率
      *
-     * @param exerciseFileUrl
-     * @param answerFileUrl
+     * @param exerFileUrl
+     * @param ansFileUrl
      */
-    public static void validateAnswerFile(String exerciseFileUrl, String answerFileUrl) {
-        File exerciseFile = new File(ValidateUtil.improvePath(exerciseFileUrl));//Constant.PRINT_FILE_URL, exerciseFileUrl);
-        File answerFile = new File(ValidateUtil.improvePath(answerFileUrl));
+    public static void checkAccuracy(String exerFileUrl, String ansFileUrl) {
+        File exerciseFile = new File(CheckUtil.getSupportPath(exerFileUrl));
+        File answerFile = new File(CheckUtil.getSupportPath(ansFileUrl));
         File gradeFile = new File(Constant.PRINT_FILE_URL, "Grade.txt");
         if (exerciseFile.isFile() && answerFile.isFile()) {
-            BufferedReader exerciseReader = null;
-            BufferedReader answerReader = null;
+            BufferedReader exerReader = null;
+            BufferedReader ansReader = null;
             OutputStream gradeFileOutputStream = null;
 
             List<Integer> Correct = new ArrayList<Integer>();
             List<Integer> Wrong = new ArrayList<Integer>();
             try {
-                exerciseReader = new BufferedReader(new InputStreamReader(new FileInputStream(exerciseFile)));
-                answerReader = new BufferedReader(new InputStreamReader(new FileInputStream(answerFile)));
-                String exerciseStr = "";
-                String answerStr = "";
-                String[] exerciseStrs = null;
-                String[] answerStrs = null;
+                exerReader = new BufferedReader(new InputStreamReader(new FileInputStream(exerciseFile)));
+                ansReader = new BufferedReader(new InputStreamReader(new FileInputStream(answerFile)));
+                String exerStr = "";
+                String ansStr = "";
+                String[] exerStrs = null;
+                String[] ansStrs = null;
                 int line = 0;//记录行数
-                System.out.println("开始验证...");
-                while ((exerciseStr = exerciseReader.readLine()) != null && (answerStr = answerReader.readLine()) != null) {
-                    exerciseStrs = exerciseStr.split("、");
-                    answerStrs = answerStr.split("、");
+                System.out.println("开始验证答案正确率，请稍等...");
+                while ((exerStr = exerReader.readLine()) != null && (ansStr = ansReader.readLine()) != null) {
+                    exerStrs = exerStr.split("、");
+                    ansStrs = ansStr.split("、");
                     //获取运算式的正确答案
-                    String realAnswer = CalculateUtil.getExpressValue(exerciseStrs[1]);
-                    if (realAnswer.equals(answerStrs[1])) {
+                    String correctAnswer = CalcUtil.getExpressValue(exerStrs[1]);
+                    if (correctAnswer.equals(ansStrs[1])) {
                         line++;
                         Correct.add(line);
                     } else {
@@ -100,21 +100,22 @@ public class PrintFileUtil {
                 gradeFileOutputStream = new FileOutputStream(gradeFile);
                 gradeFileOutputStream.write(result.getBytes());
                 //打印结果
+                System.out.println("验证完毕，验证结果如下：");
                 System.out.print(result);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                if (exerciseReader != null) {
+                if (exerReader != null) {
                     try {
-                        exerciseReader.close();
+                        exerReader.close();
                     } catch (IOException ignored) {
                     }
                 }
-                if (answerReader != null) {
+                if (ansReader != null) {
                     try {
-                        answerReader.close();
+                        ansReader.close();
                     } catch (IOException ignored) {
                     }
                 }
@@ -127,7 +128,7 @@ public class PrintFileUtil {
             }
 
         } else {
-            System.out.println("文件不存在！！！");
+            System.out.println("该文件不存在！！！");
         }
     }
 }

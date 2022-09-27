@@ -5,98 +5,101 @@ import java.util.*;
 /**
  * @version 1.0
  * @Author wanghui
- * @Description
+ * @Description 运算式工具类
  * @Create 2022-09-26 22:27
  */
 public class ExpressionUtil {
     /**
-     * 获取指定个数和数值范围的运算式字符串和结果
-     * @param n 字符串个数
-     * @param round 字符串范围
+     * 生成n道题目
+     *
+     * @param n     字符串个数
+     * @param range 字符串范围
      * @return
      */
-    public static Map<String,String> generate(int n, int round){
+    public static Map<String, String> quesProduct(int n, int range) {
 
         //运算式和结果的集合
-        Map<String,String> questionAndResultMap = new HashMap<String,String>();
+        Map<String, String> quesResMap = new HashMap<String, String>();
         //结果集合，用于判断是否重复
-        Set<String> result = new HashSet<String>();
+        Set<String> res = new HashSet<String>();
+        //获取n道题目
         for (int i = 0; i < n; i++) {
-            //随机获取运算符的个数(1~3个)
-            int num = (int)(Math.random()*3)+1;
-            //随机获取num个运算符
-            Character[] curOperators = OperatorUtil.getOperators(num);
-            //随机获取num+1个操作数
-            String[] curNumbers = NumberUtil.getNumbers(num+1,round);
+            //随机获取运算符数量(1~3个)
+            int nums = (int) (Math.random() * 3) + 1;
+            //随机获取nums个运算符
+            Character[] calcs = GetCalcsUtil.getCalcs(nums);
+            //随机获取nums+1个操作数
+            String[] ops = GetOpsUtil.getOps(nums + 1, range);
             //获取运算式表达式
-            String[] questionAndResult = getExpressStr(curOperators, curNumbers);
+            String[] expression = getExpression(calcs, ops);
 
-            if(questionAndResult==null||questionAndResult[1].contains("-")){//判断是否为负数
+            if (expression == null || expression[1].contains("-")) {//判断是否为负数
                 i--;
-            }else if (result.contains(questionAndResult[1])){//判断是否重复
+            } else if (res.contains(expression[1])) {//判断是否重复
                 i--;
-            }else {
-                result.add(questionAndResult[1]);
-                questionAndResultMap.put(questionAndResult[0],questionAndResult[1]);
+            } else {
+                res.add(expression[1]);
+                //expression[0]：运算式；expression[1]：结果的值
+                quesResMap.put(expression[0], expression[1]);
             }
         }
-        return questionAndResultMap;
+        return quesResMap;
     }
 
     /**
-     * 根据运算符数组和操作数数组生成运算式表达式
-     * @param curOperators 运算符数组
-     * @param curNumbers 操作数数组
+     * 得到一个运算式表达式
+     *
+     * @param calcs 运算符数组
+     * @param ops   操作数数组
      * @return 运算式字符串以及其结果
      */
-    private static String[] getExpressStr(Character[] curOperators, String[] curNumbers){
+    private static String[] getExpression(Character[] calcs, String[] ops) {
         //操作数的数量
-        int number = curNumbers.length;
-        //随机判断是否生成带括号的运算式
-        int isAddBracket = (int)(Math.random()*10) % 2;
+        int nums = ops.length;
+        //是否生成带括号的运算式
+        int isBracket = (int) (Math.random() * 10) % 2;
         //随机生成器
-        Random random = new Random();
+        Random rand = new Random();
 
-        if(isAddBracket==1){//生成带括号的表达式
-            //当标记为1时代表该操作数已经添加了左括号
-            int[] lStamp = new int[number];
-            //当标记为1时代表该操作数已经添加了右括号
-            int[] rStamp = new int[number];
+        if (isBracket == 1) {//生成带括号的运算式
+            //当标记为1时代表该操作数已经添加了括号
+            int[] lStamp = new int[nums];
+            int[] rStamp = new int[nums];
             //遍历操作数数组，随机添加括号
-            for (int index=0;index<number-1;index++) {
-                int n = (int)(Math.random()*10) % 2;
-                if(n == 0 && rStamp[index] != 1) {//判断当前操作数是否标记了左括号
+            for (int index = 0; index < nums - 1; index++) {
+                int n = (int) (Math.random() * 10) % 2;
+                if (n == 0 && rStamp[index] != 1) {//判断当前操作数是否标记了左括号
                     lStamp[index] = 1;//标记左括号
-                    curNumbers[index] = "(" + curNumbers[index];  //操作数之前加上左括号
-                    int k = number - 1;
+                    ops[index] = "(" + ops[index];  //操作数之前加上左括号
+                    int k = nums - 1;
                     //生成右括号的位置
-                    int rbracketIndex = random.nextInt(k)%(k-index) + (index+1);
+                    int rbracketlocation = rand.nextInt(k) % (k - index) + (index + 1);
                     //如果当前操作数有左括号，则重新生成优括号位置
-                    while (lStamp[rbracketIndex] == 1){
-                        rbracketIndex = random.nextInt(k)%(k-index) + (index+1);
+                    while (lStamp[rbracketlocation] == 1) {
+                        rbracketlocation = rand.nextInt(k) % (k - index) + (index + 1);
                     }
-                    rStamp[rbracketIndex] = 1;
-                    curNumbers[rbracketIndex] = curNumbers[rbracketIndex] +")";
+                    rStamp[rbracketlocation] = 1;
+                    ops[rbracketlocation] = ops[rbracketlocation] + ")";
 
                 }
             }
         }
 
-        //将运算符数组和操作数数组拼成一个运算式字符串
-        StringBuilder str = new StringBuilder(curNumbers[0]);
-        for (int k = 0; k < curOperators.length; k++) {
-            str.append(curOperators[k]).append(curNumbers[k + 1]);
+        //将运算符和操作数拼成字符串
+        StringBuilder str = new StringBuilder(ops[0]);
+        for (int k = 0; k < calcs.length; k++) {
+            str.append(calcs[k]).append(ops[k + 1]);
         }
-        //生成的运算式
-        String express = str.toString();
+        //运算式
+        String expression = str.toString();
         //获取运算式结果
-        String value = CalculateUtil.getExpressValue(express);
+        String value = CalcUtil.getExpressValue(expression);
 
-        if(value.equals("#")){//运算过程出现负数
+        if (value.equals("#")) {//运算过程出现负数
             return null;
         }
 
-        return  new String[]{express,value};
+        return new String[]{expression, value};
 
     }
 }

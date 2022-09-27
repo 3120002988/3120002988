@@ -1,6 +1,6 @@
 package com.hui;
 
-import com.hui.constant.Constant;
+import com.hui.common.Constant;
 import org.junit.Test;
 
 /**
