@@ -36,7 +36,7 @@ public class MyApp {
             String[] split = CheckUtil.checkParams(command);
 
             if (split != null) {
-                if (split[1].equals("-n")) {//myapp.exe -n i -r j
+                if (split[1].equals("-n")) {//Myapp.exe -n i -r j
                     int num = Integer.valueOf(split[2]);
                     if (num <= 0) {
                         System.out.println("-n参数输入错误，请重新输入");
@@ -52,7 +52,7 @@ public class MyApp {
                             System.out.println(num+"道题目全部生成完成！");
                         }
                     }
-                } else {// -e x -a y
+                } else {// Myapp.exe -e x -a y
                     String exerFileUrl = split[2];
                     String ansFileUrl = split[4];
                     //验证答案正确率
