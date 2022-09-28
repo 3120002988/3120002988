@@ -1,5 +1,7 @@
 package com.hui.utils;
 
+import com.hui.common.Constant;
+
 import java.util.*;
 
 /**
@@ -9,6 +11,8 @@ import java.util.*;
  * @Create 2022-09-26 22:27
  */
 public class ExpressionUtil {
+    private final static Character[] calcTypes = new Character[]{Constant.PLUS, Constant.MINUS, Constant.MULTIPLY, Constant.DIVIDE};
+
     /**
      * 生成n道题目
      *
@@ -27,9 +31,9 @@ public class ExpressionUtil {
             //随机获取运算符数量(1~3个)
             int nums = (int) (Math.random() * 3) + 1;
             //随机获取nums个运算符
-            Character[] calcs = GetCalcsUtil.getCalcs(nums);
+            Character[] calcs = getCalcs(nums);
             //随机获取nums+1个操作数
-            String[] ops = GetOpsUtil.getOps(nums + 1, range);
+            String[] ops = getOps(nums + 1, range);
             //获取运算式表达式
             String[] expression = getExpression(calcs, ops);
 
@@ -100,6 +104,59 @@ public class ExpressionUtil {
         }
 
         return new String[]{expression, value};
+    }
+    /**
+     * 随机获取n个操作数(分数)的数组
+     *
+     * @param n
+     * @param round
+     * @return
+     */
+    public static String[] getOps(int n, int round) {
 
+        Random random = new Random();
+        String[] ops = new String[n];
+
+        for (int i = 0; i < n; i++) {
+            //用于判断生成整数还是分数
+            int flag = (int) (Math.random() * 10) % 2;
+
+            //生成整数
+            if (flag == 0) {
+                int inter = random.nextInt(round);
+                ops[i] = (inter == 0 ? 1 : inter) + "";
+            } else {//生成分数
+                int num = (random.nextInt(round)) + 1;
+                int denom = (random.nextInt(round)) + 1;
+                ;
+
+                while (num >= denom || num == 0 || denom == 0) {//确保为真分数
+                    num = (random.nextInt(round)) + 1;
+                    denom = (random.nextInt(round)) + 1;
+                }
+
+                ops[i] = num + "/" + denom;
+            }
+        }
+        return ops;
+    }
+    /**
+     * 随机获取n个运算符的数组
+     *
+     * @param n
+     * @return
+     */
+    public static Character[] getCalcs(int n) {
+
+        Character[] calcs = new Character[n];
+
+        for (int i = 0; i < n; i++) {
+            //随机获取运算符的类型
+            int index = (int) (Math.random() * 4);
+            Character calcType = calcTypes[index];
+            calcs[i] = calcType;
+        }
+
+        return calcs;
     }
 }
